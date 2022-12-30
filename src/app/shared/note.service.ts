@@ -5,7 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class NoteService {
-  notes: Note[] = [];
+  notes: Note[] = [
+    new Note('Test title', 'Test Content'),
+    new Note('Hey', 'Test 123'),
+  ];
 
   constructor() {}
 
