@@ -27,9 +27,7 @@ export class NoteService {
   updateNote(id: string, updatedFields: Partial<Note>) {
     const note = this.getNote(id);
 
-    if (note) {
-      Object.assign(note, updatedFields);
-    }
+    Object.assign(note!, updatedFields);
   }
 
   deleteNote(id: string) {
