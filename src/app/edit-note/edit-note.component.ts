@@ -27,8 +27,10 @@ export class EditNoteComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm) {
-    this.noteService.updateNote(this.note!.id, form.value);
-    this.router.navigateByUrl('/notes');
+    if (form.valid) {
+      this.noteService.updateNote(this.note!.id, form.value);
+      this.router.navigateByUrl('/notes');
+    }
   }
 
   deleteNote() {
