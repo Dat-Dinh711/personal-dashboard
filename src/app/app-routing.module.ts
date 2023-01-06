@@ -1,3 +1,5 @@
+import { EditBookmarkComponent } from './edit-bookmark/edit-bookmark.component';
+import { ManageBookmarksComponent } from './manage-bookmarks/manage-bookmarks.component';
 import { AddBookmarkComponent } from './add-bookmark/add-bookmark.component';
 import { EditTodoComponent } from './edit-todo/edit-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
@@ -12,6 +14,11 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: 'bookmarks', component: BookmarksComponent, data: { tab: 1 } },
   { path: 'bookmarks/add', component: AddBookmarkComponent },
+  {
+    path: 'bookmarks/manage',
+    component: ManageBookmarksComponent,
+    children: [{ path: ':id', component: EditBookmarkComponent }],
+  },
   { path: 'todos', component: TodosComponent, data: { tab: 2 } },
   { path: 'todos/add', component: AddTodoComponent },
   { path: 'todos/:id', component: EditTodoComponent },
