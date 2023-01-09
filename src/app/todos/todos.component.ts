@@ -3,6 +3,7 @@ import { TodoService } from './../shared/todo.service';
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../shared/todo.model';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-todos',
@@ -26,7 +27,11 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class TodosComponent implements OnInit {
   todos: Todo[] = [];
 
-  constructor(private todoService: TodoService, private router: Router) {}
+  constructor(
+    private todoService: TodoService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.todos = this.todoService.getTodos();
@@ -42,5 +47,6 @@ export class TodosComponent implements OnInit {
 
   onDeleteClick(todo: Todo) {
     this.todoService.deleteTodo(todo.id);
+    this.notificationService.show('Todo Deleted!');
   }
 }

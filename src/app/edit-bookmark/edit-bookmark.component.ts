@@ -1,3 +1,4 @@
+import { NotificationService } from './../shared/notification.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Bookmark } from './../shared/bookmark.model';
@@ -15,7 +16,8 @@ export class EditBookmarkComponent implements OnInit {
   constructor(
     private bookmarkService: BookmarkService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -31,10 +33,13 @@ export class EditBookmarkComponent implements OnInit {
       name,
       url: new URL(url),
     });
+
+    this.notificationService.show('Updated Bookmark!');
   }
 
   delete() {
     this.bookmarkService.deleteBookmark(this.bookmark!.id);
     this.router.navigate(['../'], { relativeTo: this.route });
+    this.notificationService.show('Deleted Bookmark!');
   }
 }

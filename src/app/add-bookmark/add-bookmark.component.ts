@@ -1,3 +1,4 @@
+import { NotificationService } from './../shared/notification.service';
 import { Router } from '@angular/router';
 import { Bookmark } from './../shared/bookmark.model';
 import { BookmarkService } from './../shared/bookmark.service';
@@ -12,7 +13,8 @@ import { Component, OnInit } from '@angular/core';
 export class AddBookmarkComponent implements OnInit {
   constructor(
     private bookmarkService: BookmarkService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {}
@@ -24,5 +26,7 @@ export class AddBookmarkComponent implements OnInit {
     this.bookmarkService.addBookmark(bookmark);
 
     this.router.navigateByUrl('/bookmarks');
+
+    this.notificationService.show('Created Bookmark!');
   }
 }
