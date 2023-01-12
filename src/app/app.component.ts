@@ -6,8 +6,9 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { map, Observable, timer } from 'rxjs';
 
 const baseStyles = style({
   position: 'absolute',
@@ -224,12 +225,22 @@ const baseStyles = style({
     ]),
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   backgrounds: string[] = [
     'https://images.unsplash.com/photo-1670837301464-514615f7b6f3?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1080&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY3MjIxMTE4Ng&ixlib=rb-4.0.3&q=80&w=1920',
   ];
 
   loadingBGImage: boolean = false;
+
+  dateTime!: Observable<Date>;
+
+  ngOnInit() {
+    this.dateTime = timer(0, 1000).pipe(
+      map(() => {
+        return new Date();
+      })
+    );
+  }
 
   prepareRoute(outlet: RouterOutlet) {
     if (outlet.isActivated) {
