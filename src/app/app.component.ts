@@ -133,13 +133,57 @@ import { RouterOutlet } from '@angular/router';
         ]),
       ]),
     ]),
+
+    trigger('bgAnim', [
+      transition(':leave', [animate(1000, style({ opacity: 0 }))]),
+    ]),
+
+    trigger('fadeAnim', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate(250, style({ opacity: 1 })),
+      ]),
+
+      transition(':leave', [animate(250, style({ opacity: 0 }))]),
+    ]),
   ],
 })
 export class AppComponent {
+  backgrounds: string[] = [
+    'https://images.unsplash.com/photo-1670837301464-514615f7b6f3?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1080&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY3MjIxMTE4Ng&ixlib=rb-4.0.3&q=80&w=1920',
+  ];
+
+  loadingBGImage: boolean = false;
+
   prepareRoute(outlet: RouterOutlet) {
     if (!outlet.isActivated) {
       return undefined;
     }
     return outlet.activatedRouteData['tab'];
+  }
+
+  async changeBGImage(): Promise<any> {
+    this.loadingBGImage = true;
+
+    const result = await fetch('http://source.unsplash.com/random/1920x1080', {
+      method: 'HEAD',
+    });
+
+    const alreadyGot = this.backgrounds.includes(result.url);
+    if (alreadyGot) {
+      // This is the same image as we currently have, so re-run the function
+      return this.changeBGImage();
+    }
+
+    this.backgrounds.push(result.url);
+  }
+
+  onBGImageLoad(imgEvent: Event) {
+    // BG Image has loaded, now remove the old BG Image from the backgrounds array
+    const imgElement = imgEvent.target as HTMLImageElement;
+    const src = imgElement.src;
+    this.backgrounds = this.backgrounds.filter((bg) => bg === src);
+
+    this.loadingBGImage = false;
   }
 }
